@@ -31,7 +31,7 @@ port (
     RRESP                 :out  STD_LOGIC_VECTOR(1 downto 0);
     RVALID                :out  STD_LOGIC;
     RREADY                :in   STD_LOGIC;
-    max                   :out  STD_LOGIC_VECTOR(31 downto 0)
+    max                   :out  STD_LOGIC_VECTOR(26 downto 0)
 );
 end entity iq_gen_control_s_axi;
 
@@ -41,7 +41,8 @@ end entity iq_gen_control_s_axi;
 -- 0x08 : reserved
 -- 0x0c : reserved
 -- 0x10 : Data signal of max
---        bit 31~0 - max[31:0] (Read/Write)
+--        bit 26~0 - max[26:0] (Read/Write)
+--        others   - reserved
 -- 0x14 : reserved
 -- (SC = Self Clear, COR = Clear on Read, TOW = Toggle on Write, COH = Clear on Handshake)
 
@@ -66,7 +67,7 @@ architecture behave of iq_gen_control_s_axi is
     signal ARREADY_t           : STD_LOGIC;
     signal RVALID_t            : STD_LOGIC;
     -- internal registers
-    signal int_max             : UNSIGNED(31 downto 0) := (others => '0');
+    signal int_max             : UNSIGNED(26 downto 0) := (others => '0');
 
 
 begin
@@ -183,7 +184,7 @@ begin
                     rdata_data <= (others => '0');
                     case (TO_INTEGER(raddr)) is
                     when ADDR_MAX_DATA_0 =>
-                        rdata_data <= RESIZE(int_max(31 downto 0), 32);
+                        rdata_data <= RESIZE(int_max(26 downto 0), 32);
                     when others =>
                         NULL;
                     end case;
@@ -200,7 +201,7 @@ begin
         if (ACLK'event and ACLK = '1') then
             if (ACLK_EN = '1') then
                 if (w_hs = '1' and waddr = ADDR_MAX_DATA_0) then
-                    int_max(31 downto 0) <= (UNSIGNED(WDATA(31 downto 0)) and wmask(31 downto 0)) or ((not wmask(31 downto 0)) and int_max(31 downto 0));
+                    int_max(26 downto 0) <= (UNSIGNED(WDATA(26 downto 0)) and wmask(26 downto 0)) or ((not wmask(26 downto 0)) and int_max(26 downto 0));
                 end if;
             end if;
         end if;

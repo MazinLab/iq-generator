@@ -8,10 +8,11 @@
 // 0x08 : reserved
 // 0x0c : reserved
 // 0x10 : Data signal of max
-//        bit 31~0 - max[31:0] (Read/Write)
+//        bit 26~0 - max[26:0] (Read/Write)
+//        others   - reserved
 // 0x14 : reserved
 // (SC = Self Clear, COR = Clear on Read, TOW = Toggle on Write, COH = Clear on Handshake)
 
 #define XIQ_GEN_CONTROL_ADDR_MAX_DATA 0x10
-#define XIQ_GEN_CONTROL_BITS_MAX_DATA 32
+#define XIQ_GEN_CONTROL_BITS_MAX_DATA 27
 

@@ -28,7 +28,7 @@ module iq_gen_control_s_axi
     output wire [1:0]                    RRESP,
     output wire                          RVALID,
     input  wire                          RREADY,
-    output wire [31:0]                   max
+    output wire [26:0]                   max
 );
 //------------------------Address Info-------------------
 // 0x00 : reserved
@@ -36,7 +36,8 @@ module iq_gen_control_s_axi
 // 0x08 : reserved
 // 0x0c : reserved
 // 0x10 : Data signal of max
-//        bit 31~0 - max[31:0] (Read/Write)
+//        bit 26~0 - max[26:0] (Read/Write)
+//        others   - reserved
 // 0x14 : reserved
 // (SC = Self Clear, COR = Clear on Read, TOW = Toggle on Write, COH = Clear on Handshake)
 
@@ -66,7 +67,7 @@ localparam
     wire                          ar_hs;
     wire [ADDR_BITS-1:0]          raddr;
     // internal registers
-    reg  [31:0]                   int_max = 'b0;
+    reg  [26:0]                   int_max = 'b0;
 
 //------------------------Instantiation------------------
 
@@ -160,7 +161,7 @@ always @(posedge ACLK) begin
             rdata <= 'b0;
             case (raddr)
                 ADDR_MAX_DATA_0: begin
-                    rdata <= int_max[31:0];
+                    rdata <= int_max[26:0];
                 end
             endcase
         end
@@ -170,13 +171,13 @@ end
 
 //------------------------Register logic-----------------
 assign max = int_max;
-// int_max[31:0]
+// int_max[26:0]
 always @(posedge ACLK) begin
     if (ARESET)
-        int_max[31:0] <= 0;
+        int_max[26:0] <= 0;
     else if (ACLK_EN) begin
         if (w_hs && waddr == ADDR_MAX_DATA_0)
-            int_max[31:0] <= (WDATA[31:0] & wmask) | (int_max[31:0] & ~wmask);
+            int_max[26:0] <= (WDATA[31:0] & wmask) | (int_max[26:0] & ~wmask);
     end
 end
 

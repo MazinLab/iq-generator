@@ -4,4 +4,4 @@
 #include <ap_utils.h>
 typedef ap_axiu<256,8,0,0> iqstream_t;
 
-void iq_gen(hls::stream<iqstream_t> &out, unsigned int max);
+void iq_gen(hls::stream<iqstream_t> &out, ap_uint<27> max);
