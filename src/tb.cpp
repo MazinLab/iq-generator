@@ -8,7 +8,7 @@ int main() {
 	bool fail=false;
 
 
-	unsigned int max=256*100;
+	unsigned int max=256*4;
 	hls::stream<iqstream_t> out;
 	iq_gen(out, max);
 
@@ -19,7 +19,7 @@ int main() {
 			if (fail) {
 				cout<<"failed, i,j="<<i<<","<<j<<endl;
 				break;
-			}
+			} else if (j==0) cout<<d.data.range((j+1)*32-1,j*32).to_uint()<<endl;
 		}
 		if (fail) break;
 
