@@ -8,6 +8,6 @@ typedef ap_axiu<64,16,0,0> pstream_t;
 
 void iq_gen(hls::stream<iqstream_t> &out, ap_uint<27> max);
 void iq_gen(hls::stream<iqstream_t> &out, hls::stream<istream_t> &iout, hls::stream<istream_t> &qout, ap_uint<27> max);
-void iq_gen(hls::stream<iqstream_t> &out, hls::stream<istream_t> &iout, hls::stream<istream_t> &qout, hls::stream<pstream_t> &phase, ap_uint<27> max);
+void iq_gen(hls::stream<iqstream_t> &out, hls::stream<istream_t> &iout, hls::stream<istream_t> &qout, hls::stream<pstream_t> &phase, ap_uint<27> max, volatile bool run);
 
 

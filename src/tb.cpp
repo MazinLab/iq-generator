@@ -12,7 +12,7 @@ int main() {
 	hls::stream<iqstream_t> out;
 	hls::stream<istream_t> i_out, q_out;
 	hls::stream<pstream_t> phase;
-	iq_gen(out, i_out, q_out, phase, max);
+	iq_gen(out, i_out, q_out, phase, max, false);
 
 	// iq: 8 32 bit ints  0...7 8...15 ... up to 2^32-1 or max*8-1 last every 256th group user 0-255
 	// i & q: 8 16 bit ints  0...7 8...15 ... up to 2^16-1 or max*8-1 last every 256th group user 0-255
@@ -87,6 +87,8 @@ int main() {
 			cout<<"phase user error"<<endl;
 			break;
 		}
+
+		cout<<"phase tuser:"<<dp.user.to_uint()<<" tlast:"<<dp.last<<endl;
 	}
 
 	fail|=!out.empty();
