@@ -13,7 +13,7 @@ void iq_gen(hls::stream<iqstream_t> &out, hls::stream<istream_t> &i_out, hls::st
 #pragma HLS INTERFACE s_axilite port=run
 
 	ap_uint<26> i=0;
-	outloop: while (i< (max>>1)) {
+	outloop: while (run) {
 #pragma HLS LOOP_TRIPCOUNT min=127 max=134217727 //(2**27-1)
 #pragma HLS PIPELINE II=2 REWIND
 		iqstream_t tmp;
@@ -55,11 +55,8 @@ void iq_gen(hls::stream<iqstream_t> &out, hls::stream<istream_t> &i_out, hls::st
 		i_out.write(tmp2);
 		q_out.write(tmp2);
 		phase.write(ptmp);
-		if (run && !(i<(max>>1)))
-			i=0;
-		else
-			i+=i<(max>>1);
-//		i = i<(max>>1) ? ap_uint<26>(i+1):ap_uint<26>(0);
+
+		i = i<(max>>1) ? ap_uint<26>(i+1):ap_uint<26>(0);
 	}
 }
 
