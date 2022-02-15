@@ -34,7 +34,7 @@ void iq_gen(hls::stream<iqstream_t> &out, hls::stream<istream_t> &i_out, hls::st
 #pragma HLS INTERFACE s_axilite port=run
 
 	bool _run=run;
-	ap_uint<29> _max=max*512;
+	ap_uint<29> _max=ap_uint<29>(max)*512-1;
 	ap_uint<29> i=0;
 	outloop: while (_run) {
 #pragma HLS LOOP_TRIPCOUNT min=512 max=536870912 //(2**29-1)
